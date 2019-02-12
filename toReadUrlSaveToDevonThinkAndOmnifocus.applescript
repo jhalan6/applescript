@@ -1,15 +1,19 @@
+# read argvs from alfred terminal params
 on run argv
 	set theQuery to item 1 of argv
 	# create object to read
 	set toReadLink to theQuery
 	tell application "DEVONthink Pro"
+        # this uuid is Devonthink office pro db uuid for myself
 		set usedDB to get database with uuid "F0A0912E-F68C-4222-8C62-CEC0C1D85857"
 		log "usedDB: " & name of usedDB as string
 		tell usedDB
+            # Inbox is the name of inbox in my db
 			set usedInbox to parent named "Inbox"
 			log "usedInbox: " & name of usedInbox as string
 			set toReadUrl to create record with {name:toReadLink, type:bookmark, URL:toReadLink} in usedInbox
 			
+            # make sync 
 			synchronize record toReadUrl
 			set u to reference URL of toReadUrl as string
 		end tell
